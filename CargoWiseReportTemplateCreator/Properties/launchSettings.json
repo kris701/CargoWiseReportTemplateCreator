@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CargoWiseReportTemplateCreator": {
+      "commandName": "Project",
+      "commandLineArgs": "-t testTable -c a b c"
+    }
+  }
+}
