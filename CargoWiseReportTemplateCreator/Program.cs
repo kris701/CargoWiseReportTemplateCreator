@@ -21,32 +21,36 @@ namespace CargoWiseReportTemplateCreator
 			if (opts.DeleteExisting && File.Exists(opts.OutputFile))
 				File.Delete(opts.OutputFile);
 
-			if (!File.Exists(opts.OutputFile))
-				CreateNewBlankExcelFile(opts.OutputFile);
-
 			if (opts.WhereClause != "")
 				opts.WhereClause = $"WHERE {opts.WhereClause}";
 
+			if (!File.Exists(opts.OutputFile))
+				CreateNewBlankExcelFile(opts);
+			else
+				AppendToExistingExcelFile(opts);
+		}
+
+		private static void CreateNewBlankExcelFile(Options opts)
+		{
+			MemoryStream ms = new MemoryStream();
+			using (ExcelPackage excelPackage = new ExcelPackage())
+			{
+				CreateWorksheet(ms, excelPackage, opts);
+			}
+
+			ms.Position = 0;
+			using (FileStream file = new FileStream(opts.OutputFile, FileMode.Create, FileAccess.Write))
+				ms.WriteTo(file);
+		}
+
+		private static void AppendToExistingExcelFile(Options opts)
+		{
 			MemoryStream ms = new MemoryStream();
 			using (FileStream fs = File.OpenRead(opts.OutputFile))
 			{
 				using (ExcelPackage excelPackage = new ExcelPackage(fs))
 				{
-					ExcelWorkbook excelWorkBook = excelPackage.Workbook;
-					var sheet = excelWorkBook.Worksheets.Add(opts.TableName);
-					sheet.SetValue(1, 1, "#config");
-					sheet.SetValue(2, 1, "PageStyle=Continuous");
-					sheet.SetValue(3, 1, $"Data:ReportData=SELECT * FROM {opts.TableName} {opts.WhereClause}");
-					sheet.SetValue(4, 1, "#DocumentHeader");
-					var offset = 2;
-					foreach (var col in opts.ColumnNames)
-						sheet.SetValue(5, offset++, col);
-					sheet.SetValue(6, 1, "#SectionBody:Data=ReportData");
-					offset = 2;
-					foreach (var col in opts.ColumnNames)
-						sheet.SetValue(7, offset++, $"<ReportData.{col}>");
-					sheet.SetValue(8, 1, "#endofreport");
-					excelPackage.SaveAs(ms);
+					CreateWorksheet(ms, excelPackage, opts);
 				}
 			}
 
@@ -55,23 +59,23 @@ namespace CargoWiseReportTemplateCreator
 				ms.WriteTo(file);
 		}
 
-		private static void CreateNewBlankExcelFile(string name)
+		private static void CreateWorksheet(MemoryStream ms, ExcelPackage from, Options opts)
 		{
-			MemoryStream ms = new MemoryStream();
-			using (ExcelPackage excelPackage = new ExcelPackage())
-			{
-				ExcelWorkbook excelWorkBook = excelPackage.Workbook;
-				var sheet = excelWorkBook.Worksheets.Add("Filter");
-				sheet.SetValue(1, 1, "Batch");
-				sheet.SetValue(1, 2, "Type");
-				sheet.SetValue(1, 3, "Number");
-				sheet.SetValue(2, 1, "#End");
-				excelPackage.SaveAs(ms);
-			}
-
-			ms.Position = 0;
-			using (FileStream file = new FileStream(name, FileMode.Create, FileAccess.Write))
-				ms.WriteTo(file);
+			ExcelWorkbook excelWorkBook = from.Workbook;
+			var sheet = excelWorkBook.Worksheets.Add(opts.TableName);
+			sheet.SetValue(1, 1, "#config");
+			sheet.SetValue(2, 1, "PageStyle=Continuous");
+			sheet.SetValue(3, 1, $"Data:ReportData=SELECT * FROM {opts.TableName} {opts.WhereClause}");
+			sheet.SetValue(4, 1, "#DocumentHeader");
+			var offset = 2;
+			foreach (var col in opts.ColumnNames)
+				sheet.SetValue(5, offset++, col);
+			sheet.SetValue(6, 1, "#SectionBody:Data=ReportData");
+			offset = 2;
+			foreach (var col in opts.ColumnNames)
+				sheet.SetValue(7, offset++, $"<ReportData.{col}>");
+			sheet.SetValue(8, 1, "#endofreport");
+			from.SaveAs(ms);
 		}
 
 		private static void HandleParseError(IEnumerable<CommandLine.Error> errs)

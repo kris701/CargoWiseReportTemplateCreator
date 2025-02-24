@@ -2,7 +2,7 @@
   "profiles": {
     "CargoWiseReportTemplateCreator": {
       "commandName": "Project",
-      "commandLineArgs": "-t testTable2 -c a b c"
+      "commandLineArgs": "-t GenCustomAddOnRule -w \"XR_IsActive = 1\" -c XR_Code XR_Description -d"
     }
   }
 }
