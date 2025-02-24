@@ -14,5 +14,5 @@
 # CargoWise Report Template Creator
 
 This is a simple little tool to create report templates for CargoWise.
-It is packaged on the [NuGet Package Manager](https://www.nuget.org/packages/CargoWiseReportTemplateCreator/) as a dotnet tool, so you can install it by writing `dotnet tool install CargoWiseXUBExtractor` into a terminal.
+It is packaged on the [NuGet Package Manager](https://www.nuget.org/packages/CargoWiseReportTemplateCreator/) as a dotnet tool, so you can install it by writing `dotnet tool install CargoWiseReportTemplateCreator` into a terminal.
 You can then use the tool by writing `cwreporttemplatecreator` in a terminal.
