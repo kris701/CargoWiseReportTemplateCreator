@@ -16,7 +16,7 @@ namespace CargoWiseReportTemplateCreator
 
 		public static async Task Run(Options opts)
 		{
-			ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+			ExcelPackage.License.SetNonCommercialPersonal("kristian");
 
 			if (opts.DeleteExisting && File.Exists(opts.OutputFile))
 				File.Delete(opts.OutputFile);
