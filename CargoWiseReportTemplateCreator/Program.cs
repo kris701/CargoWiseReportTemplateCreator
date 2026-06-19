@@ -62,10 +62,12 @@ namespace CargoWiseReportTemplateCreator
 		private static void CreateWorksheet(MemoryStream ms, ExcelPackage from, Options opts)
 		{
 			ExcelWorkbook excelWorkBook = from.Workbook;
+			if (excelWorkBook.Worksheets.Any(x => x.Name == opts.TableName))
+				excelWorkBook.Worksheets.Delete(excelWorkBook.Worksheets.First(x => x.Name == opts.TableName));
 			var sheet = excelWorkBook.Worksheets.Add(opts.TableName);
 			sheet.SetValue(1, 1, "#config");
 			sheet.SetValue(2, 1, "PageStyle=Continuous");
-			sheet.SetValue(3, 1, $"Data:ReportData=SELECT * FROM {opts.TableName} {opts.WhereClause}");
+			sheet.SetValue(3, 1, $"Data:ReportData=SELECT <ReportData.SelectList> FROM <UserRepository>.dbo.{opts.TableName} {opts.WhereClause}");
 			sheet.SetValue(4, 1, "#DocumentHeader");
 			var offset = 2;
 			foreach (var col in opts.ColumnNames)

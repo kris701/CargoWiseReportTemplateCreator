@@ -2,7 +2,8 @@
   "profiles": {
     "CargoWiseReportTemplateCreator": {
       "commandName": "Project",
-      "commandLineArgs": "-t GenCustomAddOnRule -w \"XR_IsActive = 1\" -c XR_Code XR_Description -d"
+      "commandLineArgs": "-t UNDGDataItem -c DI_ParentID DI_ParentTableCode",
+      "workingDirectory": "C:\\Users\\kris7\\Downloads"
     }
   }
 }
