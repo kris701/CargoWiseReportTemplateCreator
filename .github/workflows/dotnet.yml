@@ -92,4 +92,4 @@ jobs:
         with:
           skipIfReleaseExists: true
           artifacts: "CargoWiseReportTemplateCreator/bin/Release/*.nupkg"
-          tag: needs.check-tag.outputs.version
+          tag: ${{ needs.check-tag.outputs.version }}
