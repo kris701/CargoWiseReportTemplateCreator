@@ -2,7 +2,7 @@
     <img src="https://github.com/user-attachments/assets/7f3bd98c-97b5-471e-a3bb-75dba11cb3b5" width="200" height="200" />
 </p>
 
-[![Build and Publish](https://github.com/kris701/CargoWiseReportTemplateCreator/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/kris701/CargoWiseReportTemplateCreator/actions/workflows/dotnet.yml)
+[![Build and Publish](https://github.com/kris701/CargoWiseReportTemplateCreator/actions/workflows/dotnet.yml/badge.svg)](https://github.com/kris701/CargoWiseReportTemplateCreator/actions/workflows/dotnet.yml)
 ![Nuget](https://img.shields.io/nuget/v/CargoWiseReportTemplateCreator)
 ![Nuget](https://img.shields.io/nuget/dt/CargoWiseReportTemplateCreator)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kris701/CargoWiseReportTemplateCreator/main)
